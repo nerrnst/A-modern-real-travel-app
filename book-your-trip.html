@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Book your trip | SavannaCrest</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="index.html" aria-label="SavannaCrest Tours & Travel home">
+          <span class="brand-mark">S</span>
+          <span>SavannaCrest Tours &amp; Travel</span>
+        </a>
+        <nav class="nav" aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="destinations.html">Destinations</a>
+          <a href="safaris.html">Safaris</a>
+          <a href="packages.html">Packages</a>
+          <a href="about-us.html">About us</a>
+          <a href="travel-guide.html">Travel guide</a>
+          <a href="book-your-trip.html">Book your trip</a>
+          <a href="contact-us.html" class="nav-cta">Contact us</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero small-hero" style="background-image: linear-gradient(rgba(10,20,16,0.52), rgba(10,20,16,0.52)), url('https://images.unsplash.com/photo-1477959858617-67f85cf4f1df?auto=format&fit=crop&w=1400&q=80');">
+        <div class="container">
+          <div class="eyebrow">Book your trip</div>
+          <h1>Let’s plan your perfect African getaway.</h1>
+          <p>Share your idea of the trip and our travel specialists will turn it into a seamless, unforgettable itinerary.</p>
+        </div>
+      </section>
+
+      <section class="booking-section">
+        <div class="container booking-layout">
+          <div class="booking-intro">
+            <span class="eyebrow dark">Why book with us</span>
+            <h2>Tailored journeys that feel effortless.</h2>
+            <p>From private safari experiences to luxury coastal escapes, we design journeys around your pace, priorities, and budget.</p>
+
+            <div class="benefits booking-benefits">
+              <div class="benefit-box">
+                <div class="benefit-icon">✦</div>
+                <h3>Custom planning</h3>
+                <p>Every trip is shaped around your travel style, interests, and preferred level of comfort.</p>
+              </div>
+
+              <div class="benefit-box">
+                <div class="benefit-icon">✓</div>
+                <h3>Stress-free booking</h3>
+                <p>Flights, lodging, transfers, and activities are handled with clear guidance and support.</p>
+              </div>
+
+              <div class="benefit-box">
+                <div class="benefit-icon">⏱</div>
+                <h3>Fast response</h3>
+                <p>We respond with tailored recommendations and next steps within one business day.</p>
+              </div>
+            </div>
+
+            <div class="booking-flow">
+              <h3>Booking flow</h3>
+              <div class="flow-list">
+                <span>Visitors</span>
+                <span>Destination</span>
+                <span>Package</span>
+                <span>Itinerary</span>
+                <span>Price</span>
+                <span>Book now</span>
+                <span>Booking</span>
+                <span>Details</span>
+                <span>Quotation</span>
+                <span>Deposit / Payment</span>
+                <span>Confirmation</span>
+                <span>Travel</span>
+                <span>Follow-up &amp; review</span>
+              </div>
+            </div>
+          </div>
+
+          <form class="booking-form" id="bookingForm" action="#" method="post">
+            <div class="form-grid">
+              <div class="field">
+                <label for="booking-name">Full name</label>
+                <input id="booking-name" type="text" name="name" placeholder="Your name" required />
+              </div>
+
+              <div class="field">
+                <label for="booking-email">Email address</label>
+                <input id="booking-email" type="email" name="email" placeholder="you@example.com" required />
+              </div>
+
+              <div class="field">
+                <label for="booking-phone">Phone number</label>
+                <input id="booking-phone" type="tel" name="phone" placeholder="+254 ..." required />
+              </div>
+
+              <div class="field">
+                <label for="trip-type">Trip type</label>
+                <select id="trip-type" name="tripType">
+                  <option value="">Select</option>
+                  <option>Safari</option>
+                  <option>Beach getaway</option>
+                  <option>Cultural tour</option>
+                  <option>Luxury honeymoon</option>
+                  <option>Family holiday</option>
+                </select>
+              </div>
+
+              <div class="field">
+                <label for="booking-destination">Destination</label>
+                <input id="booking-destination" type="text" name="destination" placeholder="Kenya, Tanzania, Zanzibar..." />
+              </div>
+
+              <div class="field">
+                <label for="travelers">Travelers</label>
+                <input id="travelers" type="text" name="travelers" placeholder="2 adults, 1 child" />
+              </div>
+
+              <div class="field">
+                <label for="arrival-date">Arrival date</label>
+                <input id="arrival-date" type="date" name="arrivalDate" />
+              </div>
+
+              <div class="field">
+                <label for="budget">Budget range</label>
+                <select id="budget" name="budget">
+                  <option value="">Select</option>
+                  <option>$1,500 - $3,000</option>
+                  <option>$3,000 - $5,000</option>
+                  <option>$5,000 - $8,000</option>
+                  <option>$8,000+</option>
+                </select>
+              </div>
+
+              <div class="field wide">
+                <label for="booking-message">Trip details</label>
+                <textarea id="booking-message" name="message" rows="6" placeholder="Tell us your ideal dates, must-see experiences, accommodation style, and any special requests..."></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Confirm my booking request</button>
+          </form>
+
+          <script>
+            (function () {
+              const form = document.getElementById('bookingForm');
+              if (!form) return;
+
+              form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+                const button = form.querySelector('button[type="submit"]');
+                const originalText = button ? button.textContent : 'Confirm my booking request';
+
+                if (button) {
+                  button.disabled = true;
+                  button.textContent = 'Sending...';
+                }
+
+                const payload = Object.fromEntries(new FormData(form).entries());
+                const apiBase = (window.location.origin && window.location.origin !== 'null') ? window.location.origin : 'http://localhost:3001';
+
+                try {
+                  const response = await fetch(`${apiBase}/api/booking`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                  });
+
+                  const data = await response.json();
+                  if (!response.ok) throw new Error(data.error || 'Unable to submit your booking request.');
+                  window.location.href = 'contact-success.html';
+                } catch (error) {
+                  alert(error.message || 'Something went wrong while saving your booking request.');
+                } finally {
+                  if (button) {
+                    button.disabled = false;
+                    button.textContent = originalText;
+                  }
+                }
+              });
+            })();
+          </script>
+        </div>
+      </section>
+
+      <section class="payment-section">
+        <div class="container payment-wrap">
+          <div class="payment-header">
+            <span class="eyebrow dark">Payment</span>
+            <h2>Secure your reservation</h2>
+          </div>
+
+          <form class="payment-form" action="#" method="post">
+            <div class="form-grid payment-grid">
+              <div class="field">
+                <label for="booking-ref">Booking Reference</label>
+                <input id="booking-ref" type="text" name="booking-ref" placeholder="SC-2026-001" />
+              </div>
+
+              <div class="field">
+                <label for="customer-name">Customer Name</label>
+                <input id="customer-name" type="text" name="customer-name" placeholder="Jane Doe" />
+              </div>
+
+              <div class="field">
+                <label for="payment-email">Email</label>
+                <input id="payment-email" type="email" name="payment-email" placeholder="jane@example.com" />
+              </div>
+
+              <div class="field">
+                <label for="payment-phone">Phone Number</label>
+                <input id="payment-phone" type="tel" name="payment-phone" placeholder="+254 712 345 678" />
+              </div>
+
+              <div class="field">
+                <label for="tour-package">Tour / Package</label>
+                <input id="tour-package" type="text" name="tour-package" placeholder="Masai Mara Safari Deluxe" />
+              </div>
+
+              <div class="field">
+                <label for="amount-pay">Amount to Pay (KSh)</label>
+                <input id="amount-pay" type="number" name="amount-pay" placeholder="120000" />
+              </div>
+
+              <div class="field wide">
+                <label for="payment-method">Payment Method</label>
+                <div class="payment-methods" id="payment-method">
+                  <label class="method-option">
+                    <input type="radio" name="payment-method" value="M-PESA" checked onclick="window.showMpesaPrompt && window.showMpesaPrompt();" />
+                    <span>M-PESA</span>
+                  </label>
+                  <label class="method-option">
+                    <input type="radio" name="payment-method" value="Visa / Mastercard" onclick="window.hideMpesaPrompt && window.hideMpesaPrompt();" />
+                    <span>Visa / Mastercard</span>
+                  </label>
+                  <label class="method-option">
+                    <input type="radio" name="payment-method" value="Bank Transfer" onclick="window.hideMpesaPrompt && window.hideMpesaPrompt();" />
+                    <span>Bank Transfer</span>
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Pay Now</button>
+          </form>
+        </div>
+      </section>
+
+      <div class="payment-modal" id="mpesaModal" aria-hidden="true">
+        <div class="payment-modal-card">
+          <button type="button" class="modal-close" aria-label="Close">×</button>
+          <h3>M-PESA Payment</h3>
+          <p>Please enter the phone number you want to receive the M-PESA prompt on.</p>
+
+          <label for="mpesa-phone">Phone Number</label>
+          <input id="mpesa-phone" type="tel" placeholder="e.g. +254 712 345 678" />
+
+          <label for="mpesa-amount">Amount (KSh)</label>
+          <input id="mpesa-amount" type="number" placeholder="120000" />
+
+          <button type="button" class="btn btn-primary" id="confirmMpesa">Send M-PESA Prompt</button>
+        </div>
+      </div>
+    </main>
+
+    <script>
+      (function () {
+        window.showMpesaPrompt = function () {
+          const mpesaModal = document.getElementById('mpesaModal');
+          if (!mpesaModal) return;
+          const mpesaPhone = document.getElementById('mpesa-phone');
+          const mpesaAmount = document.getElementById('mpesa-amount');
+          const paymentPhone = document.getElementById('payment-phone');
+          const amountInput = document.getElementById('amount-pay');
+
+          if (mpesaPhone) mpesaPhone.value = (paymentPhone && paymentPhone.value) ? paymentPhone.value : '';
+          if (mpesaAmount) mpesaAmount.value = amountInput ? amountInput.value : '';
+          mpesaModal.classList.add('show');
+          mpesaModal.setAttribute('aria-hidden', 'false');
+        };
+
+        window.hideMpesaPrompt = function () {
+          const mpesaModal = document.getElementById('mpesaModal');
+          if (!mpesaModal) return;
+          mpesaModal.classList.remove('show');
+          mpesaModal.setAttribute('aria-hidden', 'true');
+        };
+
+        const closeModal = document.querySelector('.modal-close');
+        const confirmMpesa = document.getElementById('confirmMpesa');
+        const payNowButton = document.querySelector('.payment-form .btn-primary');
+
+        if (closeModal) {
+          closeModal.addEventListener('click', function () {
+            window.hideMpesaPrompt();
+          });
+        }
+
+        if (payNowButton) {
+          payNowButton.addEventListener('click', function (event) {
+            const selectedPayment = document.querySelector('input[name="payment-method"]:checked');
+            if (selectedPayment && selectedPayment.value === 'M-PESA') {
+              event.preventDefault();
+              window.showMpesaPrompt();
+            }
+          });
+        }
+
+        if (confirmMpesa) {
+          confirmMpesa.addEventListener('click', function () {
+            const mpesaPhone = document.getElementById('mpesa-phone');
+            const mpesaAmount = document.getElementById('mpesa-amount');
+            const phone = mpesaPhone ? mpesaPhone.value.trim() : '';
+            const amount = mpesaAmount ? mpesaAmount.value.trim() : '';
+
+            if (!phone || !amount) {
+              alert('Please enter the phone number and amount to continue with M-PESA payment.');
+              return;
+            }
+
+            alert('M-PESA payment prompt has been sent to ' + phone + ' for KSh ' + Number(amount).toLocaleString() + '.');
+            window.hideMpesaPrompt();
+          });
+        }
+      })();
+    </script>
+
+    <footer>
+      <div class="container footer-bottom">
+        <span>© 2026 SavannaCrest Tours &amp; Travel</span>
+        <span>Premium Africa journeys</span>
+      </div>
+    </footer>
+  </body>
+</html>

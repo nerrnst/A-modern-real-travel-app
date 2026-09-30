@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact us | SavannaCrest</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div class="container topbar-inner">
+        <a class="brand" href="index.html" aria-label="SavannaCrest Tours & Travel home">
+          <span class="brand-mark">S</span>
+          <span>SavannaCrest Tours &amp; Travel</span>
+        </a>
+        <nav class="nav" aria-label="Main navigation">
+          <a href="index.html">Home</a>
+          <a href="destinations.html">Destinations</a>
+          <a href="safaris.html">Safaris</a>
+          <a href="packages.html">Packages</a>
+          <a href="about-us.html">About us</a>
+          <a href="travel-guide.html">Travel guide</a>
+          <a href="book-your-trip.html">Book your trip</a>
+          <a href="contact-us.html" class="nav-cta">Contact us</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="page-hero small-hero" style="background-image: linear-gradient(rgba(10,20,16,0.52), rgba(10,20,16,0.52)), url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80');">
+        <div class="container">
+          <div class="eyebrow">Contact us</div>
+          <h1>Start planning your African escape.</h1>
+          <p>Share your dream trip, travel dates, and inspiration, and we’ll design a seamless itinerary for you.</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="container">
+          <div class="custom-panel contact-panel">
+            <div>
+              <h2>Book your trip</h2>
+              <p>Email: hello@savannacresttours.com</p>
+              <p>Phone: +254 700 000 000</p>
+              <p>Nairobi • Mombasa • Zanzibar</p>
+            </div>
+            <a href="book-your-trip.html" class="btn btn-primary">Book your trip</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="contact-section">
+        <div class="container contact-layout">
+          <div class="contact-card">
+            <span class="eyebrow dark">Plan your journey</span>
+            <h2>Tell us where you want to go.</h2>
+            <p>We’ll craft a tailored safari, beach escape, or cultural adventure around your travel style, dates, and budget.</p>
+
+            <div class="contact-details">
+              <div>
+                <strong>Email</strong>
+                <span>hello@savannacresttours.com</span>
+              </div>
+              <div>
+                <strong>Phone</strong>
+                <span>+254 700 000 000</span>
+              </div>
+              <div>
+                <strong>Hours</strong>
+                <span>Mon–Sat: 8:00 AM – 7:00 PM</span>
+              </div>
+              <div>
+                <strong>Offices</strong>
+                <span>Nairobi, Mombasa &amp; Zanzibar</span>
+              </div>
+            </div>
+          </div>
+
+          <form class="contact-form" id="contactForm" action="#" method="post">
+            <div class="form-grid">
+              <div class="field">
+                <label for="name">Full name</label>
+                <input id="name" type="text" name="name" placeholder="Your name" required />
+              </div>
+
+              <div class="field">
+                <label for="email">Email address</label>
+                <input id="email" type="email" name="email" placeholder="you@example.com" required />
+              </div>
+
+              <div class="field">
+                <label for="phone">Phone number</label>
+                <input id="phone" type="tel" name="phone" placeholder="+254 ..." />
+              </div>
+
+              <div class="field">
+                <label for="destination">Destination</label>
+                <select id="destination" name="destination">
+                  <option value="">Select a destination</option>
+                  <option>Kenya</option>
+                  <option>Tanzania</option>
+                  <option>Zanzibar</option>
+                  <option>Uganda</option>
+                  <option>Rwanda</option>
+                  <option>South Africa</option>
+                  <option>Namibia</option>
+                  <option>Custom itinerary</option>
+                </select>
+              </div>
+
+              <div class="field wide">
+                <label for="dates">Travel dates</label>
+                <input id="dates" type="text" name="dates" placeholder="e.g. 12–20 Dec 2026" />
+              </div>
+
+              <div class="field wide">
+                <label for="message">Tell us about your dream trip</label>
+                <textarea id="message" name="message" rows="6" placeholder="Tell us about your preferred itinerary, activities, group size, and special requests..."></textarea>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Send inquiry</button>
+          </form>
+
+          <script>
+            (function () {
+              const form = document.getElementById('contactForm');
+              if (!form) return;
+
+              form.addEventListener('submit', async function (event) {
+                event.preventDefault();
+                const button = form.querySelector('button[type="submit"]');
+                const originalText = button ? button.textContent : 'Send inquiry';
+
+                if (button) {
+                  button.disabled = true;
+                  button.textContent = 'Sending...';
+                }
+
+                const payload = Object.fromEntries(new FormData(form).entries());
+                const apiBase = (window.location.origin && window.location.origin !== 'null') ? window.location.origin : 'http://localhost:3001';
+
+                try {
+                  const response = await fetch(`${apiBase}/api/contact`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload),
+                  });
+
+                  const data = await response.json();
+                  if (!response.ok) throw new Error(data.error || 'Unable to send your message.');
+                  window.location.href = 'contact-success.html';
+                } catch (error) {
+                  alert(error.message || 'Something went wrong while sending your message.');
+                } finally {
+                  if (button) {
+                    button.disabled = false;
+                    button.textContent = originalText;
+                  }
+                }
+              });
+            })();
+          </script>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-bottom">
+        <span>© 2026 SavannaCrest Tours &amp; Travel</span>
+        <span>Premium Africa journeys</span>
+      </div>
+    </footer>
+  </body>
+</html>
