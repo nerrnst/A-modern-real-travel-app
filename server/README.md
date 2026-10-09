@@ -19,15 +19,24 @@ npm install
 cp .env.example .env
 ```
 
-Example:
+Use a real provider such as SendGrid, Mailgun, Resend, or Gmail. Because your Google account is currently blocking Gmail app-password generation, the easiest production option is SendGrid.
+
+SendGrid setup:
+
+1. Create a free or paid SendGrid account.
+2. Go to Settings → API Keys and create a new key.
+3. Use the API key as the SMTP password.
+4. Set the SMTP username to `apikey`.
+
+Example SendGrid configuration:
 
 ```env
-SMTP_HOST=smtp.gmail.com
+SMTP_HOST=smtp.sendgrid.net
 SMTP_PORT=587
-SMTP_USER=your-email@gmail.com
-SMTP_PASS=your-app-password
-TO_EMAIL=hello@savannacresttours.com
-FROM_EMAIL=website@savannacresttours.com
+SMTP_USER=apikey
+SMTP_PASS=your-sendgrid-api-key
+TO_EMAIL=nernst546@gmail.com
+FROM_EMAIL=nernst546@gmail.com
 PORT=3001
 ```
 
@@ -49,6 +58,7 @@ Security notes
 - Keep SMTP credentials in environment variables, not in the source code.
 - Gmail requires an App Password for SMTP when 2FA is enabled.
 - Use secure providers such as Gmail, SendGrid, Mailgun, or Resend for production email delivery.
+- Do not commit or share your real `.env` file. It should stay local or in your host dashboard only.
 
 Testing
 - Run the form test suite with:

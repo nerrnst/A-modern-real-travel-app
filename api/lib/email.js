@@ -1,8 +1,6 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const nodemailer = require('nodemailer');
 const path = require('path');
+const nodemailer = require('nodemailer');
+require('dotenv').config({ path: path.resolve(__dirname, '../../server/.env') });
 
 function getEnvConfig(overrides = {}) {
   return {
@@ -12,7 +10,6 @@ function getEnvConfig(overrides = {}) {
     SMTP_PASS: overrides.SMTP_PASS || process.env.SMTP_PASS,
     TO_EMAIL: overrides.TO_EMAIL || process.env.TO_EMAIL || 'hello@savannacresttours.com',
     FROM_EMAIL: overrides.FROM_EMAIL || process.env.FROM_EMAIL || process.env.SMTP_USER || 'website@savannacresttours.com',
-    PORT: overrides.PORT || process.env.PORT || 3001,
   };
 }
 
@@ -21,8 +18,6 @@ function buildTransporter(cfg) {
   const hasAllSmtpCredentials = !!cfg.SMTP_HOST && !!cfg.SMTP_PORT && !!cfg.SMTP_USER && !!cfg.SMTP_PASS;
 
   if (!hasAllSmtpCredentials || demoHost) {
-    console.warn('SMTP credentials are not fully configured. The app will run in demo mode and simulate successful email delivery. To enable real email delivery, set SMTP_HOST, SMTP_PORT, SMTP_USER, and SMTP_PASS in server/.env and restart the server.');
-
     return {
       async sendMail(mailOptions) {
         console.log('Demo email delivery', {
@@ -80,65 +75,41 @@ function buildBookingText(payload) {
   return text;
 }
 
-function createApp(env = {}) {
-  const cfg = getEnvConfig(env);
-  const app = express();
-  const transporter = buildTransporter(cfg);
+async function handleFormSubmission({ req, res, routeName, subjectPrefix, payloadBuilder, env = {} }) {
+  if (req.method !== 'POST') {
+    return res.status(405).json({ error: 'Method not allowed' });
+  }
 
-  app.use(cors());
-  app.use(express.json());
-  app.use(express.static(path.join(__dirname, '..')));
+  try {
+    const cfg = getEnvConfig(env);
+    const transporter = buildTransporter(cfg);
+    const payload = req.body || {};
+    const { name, email, message } = payload;
 
-  const handleSubmittedForm = async (req, res, { routeName, subjectPrefix, payloadBuilder }) => {
-    try {
-      const payload = req.body || {};
-      const { name, email, message } = payload;
-
-      if (!name || !email || !message) {
-        return res.status(400).json({ error: 'Missing required fields' });
-      }
-
-      const mailOptions = {
-        from: cfg.FROM_EMAIL,
-        to: cfg.TO_EMAIL,
-        subject: `${subjectPrefix}${name}`,
-        text: payloadBuilder(payload),
-        replyTo: email,
-      };
-
-      const info = await transporter.sendMail(mailOptions);
-      return res.json({ ok: true, info });
-    } catch (err) {
-      console.error(`Error sending ${routeName} email:`, err);
-      return res.status(500).json({ error: 'Failed to send email' });
+    if (!name || !email || !message) {
+      return res.status(400).json({ error: 'Missing required fields' });
     }
-  };
 
-  app.get('/api/health', (req, res) => {
-    res.json({ ok: true, message: 'Server healthy' });
-  });
+    const mailOptions = {
+      from: cfg.FROM_EMAIL,
+      to: cfg.TO_EMAIL,
+      subject: `${subjectPrefix}${name}`,
+      text: payloadBuilder(payload),
+      replyTo: email,
+    };
 
-  app.post('/api/contact', (req, res) => handleSubmittedForm(req, res, {
-    routeName: 'contact',
-    subjectPrefix: 'Website enquiry from ',
-    payloadBuilder: buildContactText,
-  }));
-
-  app.post('/api/booking', (req, res) => handleSubmittedForm(req, res, {
-    routeName: 'booking',
-    subjectPrefix: 'Booking request from ',
-    payloadBuilder: buildBookingText,
-  }));
-
-  return app;
+    const info = await transporter.sendMail(mailOptions);
+    return res.status(200).json({ ok: true, info });
+  } catch (error) {
+    console.error(`Error sending ${routeName} email:`, error);
+    return res.status(500).json({ error: 'Failed to send email' });
+  }
 }
 
-if (require.main === module) {
-  const app = createApp();
-  const PORT = process.env.PORT || 3001;
-  app.listen(PORT, () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
-}
-
-module.exports = { createApp, buildContactText, buildBookingText };
+module.exports = {
+  getEnvConfig,
+  buildTransporter,
+  buildContactText,
+  buildBookingText,
+  handleFormSubmission,
+};
