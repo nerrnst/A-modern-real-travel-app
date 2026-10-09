@@ -133,12 +133,13 @@ function createApp(env = {}) {
   return app;
 }
 
+const app = createApp();
+
 if (require.main === module) {
-  const app = createApp();
   const PORT = process.env.PORT || 3001;
   app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
   });
 }
 
-module.exports = { createApp, buildContactText, buildBookingText };
+module.exports = app;
