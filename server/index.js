@@ -132,7 +132,6 @@ function createApp(env = {}) {
 
   return app;
 }
-const app = createApp();
 
 const app = createApp();
 
